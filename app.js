@@ -93,37 +93,37 @@ app.delete('/listings/:id', async (req, res) => {
 //     .catch((err) => console.log(err));
 // });
 
-// Remove duplicates function
-async function removeDuplicateTitles() {
-  const duplicates = await Listing.aggregate([
-    {
-      $group: {
-        _id: '$title',
-        ids: { $push: '$_id' },
-        count: { $sum: 1 },
-      },
-    },
-    {
-      $match: {
-        count: { $gt: 1 },
-      },
-    },
-  ]);
+// Remove duplicates document if exist in mongodb
+// async function removeDuplicateTitles() {
+//   const duplicates = await Listing.aggregate([
+//     {
+//       $group: {
+//         _id: '$title',
+//         ids: { $push: '$_id' },
+//         count: { $sum: 1 },
+//       },
+//     },
+//     {
+//       $match: {
+//         count: { $gt: 1 },
+//       },
+//     },
+//   ]);
 
-  for (const duplicate of duplicates) {
-    // Keep the first ID and delete the rest
-    const idsToDelete = duplicate.ids.slice(1); // all but the first
+//   for (const duplicate of duplicates) {
+//     // Keep the first ID and delete the rest
+//     const idsToDelete = duplicate.ids.slice(1); // all but the first
 
-    await Listing.deleteMany({
-      _id: { $in: idsToDelete },
-    });
-  }
-}
+//     await Listing.deleteMany({
+//       _id: { $in: idsToDelete },
+//     });
+//   }
+// }
 
-// Call the function to remove duplicates
-removeDuplicateTitles()
-  .then(() => console.log('Duplicate titles removed'))
-  .catch((err) => console.log(err));
+// // Call the function to remove duplicates
+// removeDuplicateTitles()
+//   .then(() => console.log('Duplicate titles removed'))
+//   .catch((err) => console.log(err));
 
 app.listen(8080, () => {
   console.log('server is start in port 8080');
