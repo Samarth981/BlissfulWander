@@ -1,6 +1,6 @@
-const express = new require('express');
+const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
-const mongoose = new require('mongoose');
 const Listing = require('./model/listing.js');
 const path = require('path');
 const methodOverride = require('method-override');
