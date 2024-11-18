@@ -4,7 +4,12 @@
   <div class="col-8 offset-2">
     <h3>Edit listing</h3>
     <br />
-    <form method="POST" action="/listings/<%= listing._id %>?_method=put">
+    <form
+      method="POST"
+      action="/listings/<%= listing._id %>?_method=put"
+      class="needs-validation"
+      novalidate
+    >
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input
@@ -14,11 +19,17 @@
           class="form-control"
           required
         />
+        <div class="invalid-feedback">Title should be valid</div>
       </div>
 
       <div class="mb-3">
         <label for="description" class="form-label">Descriptio</label>
-        <textarea name="listing[description]" class="form-control">
+        <textarea
+          name="listing[description]"
+          class="form-control"
+          id="description"
+          required
+        >
     <%= listing.description %></textarea
         >
       </div>
@@ -32,7 +43,9 @@
           class="form-control"
           placeholder="URL"
           value="<%= listing.image.url %>"
+          required
         />
+        <div class="invalid-feedback">URL should be Invalid</div>
       </div>
       <br />
 
@@ -45,8 +58,11 @@
             class="form-control"
             placeholder="Price"
             value="<%= listing.price %>"
+            required
           />
+          <div class="invalid-feedback">price should be Invalid</div>
         </div>
+
         <br />
 
         <div class="mb-3 col-md-8">
@@ -59,6 +75,7 @@
             value="<%= listing.country %>"
             required
           />
+          <div class="invalid-feedback">country name should be Invalid</div>
         </div>
       </div>
       <br />
@@ -78,4 +95,5 @@
       <button type="submit" class="btn btn-dark add-btn mt-1 mb-2">Add</button>
     </form>
   </div>
+  <script src="/public/js/Script.js"></script>
 </div>

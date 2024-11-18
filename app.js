@@ -93,7 +93,7 @@ app.delete('/listings/:id', async (req, res) => {
 //     .catch((err) => console.log(err));
 // });
 
-// Remove duplicates document if exist in mongodb
+// // Remove duplicates document if exist in mongodb
 // async function removeDuplicateTitles() {
 //   const duplicates = await Listing.aggregate([
 //     {
