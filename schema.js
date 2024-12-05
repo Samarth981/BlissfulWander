@@ -3,12 +3,19 @@ const Joi = require('joi');
 module.exports.listingSchema = Joi.object({
   listing: Joi.object({
     title: Joi.string().required(),
-    description: Joi.string().optional(),
-    location: Joi.string().optional(),
-    country: Joi.string().optional(),
-    price: Joi.number().optional().min(0),
+    description: Joi.string().required(),
+    location: Joi.string().required(),
+    country: Joi.string().required(),
+    price: Joi.number().required().min(0),
     image: Joi.object({
-      url: Joi.string().uri().allow('', null).optional(), // Image is optional
+      url: Joi.string().uri().allow('', null), // Image is optional
     }).optional(),
+  }).required(),
+});
+
+module.exports.reviewSchema = Joi.object({
+  review: Joi.object({
+    rating: Joi.number().required().min(0).max(5),
+    comment: Joi.string().required(),
   }).required(),
 });

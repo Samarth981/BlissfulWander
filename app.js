@@ -1,19 +1,23 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+
+app.use(express.json()); // Parses JSON data
+app.use(express.urlencoded({ extended: true }));
+
 const Listing = require('./model/listing.js');
+const Review = require('./model/review.js');
 const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 
 const wrapAysnc = require('./utils/WrapAsync.js');
 const ExpressError = require('./utils/ExpressError.js');
-const { listingSchema } = require('./schema.js');
+const { listingSchema, reviewSchema } = require('./schema.js');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json()); // Parses JSON data (if needed)
+
 app.use(methodOverride('_method'));
 
 //ejs mate
@@ -36,12 +40,23 @@ app.get('/', (req, res) => {
   res.send('hii I am root');
 });
 
+//this is Schema validation convert as a middleware
 const valideteListing = (req, res, next) => {
-  console.log(req.body);
-  const { error } = listingSchema.validate(req.body);
+  let { error } = listingSchema.validate(req.body);
+  if (error) {
+    let errorMessage = error.details.map((d) => d.message).join(',');
+    throw new ExpressError(400, errorMessage);
+  } else {
+    next();
+  }
+};
+
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
   console.log(error);
   if (error) {
-    const errorMessage = error.details.map((d) => d.message).join(', ');
+    console.log(error);
+    let errorMessage = error.details.map((d) => d.message).join(',');
     throw new ExpressError(400, errorMessage);
   } else {
     next();
@@ -110,6 +125,23 @@ app.delete(
     await Listing.findByIdAndDelete(id);
     console.log('delete success');
     res.redirect('/listings');
+  }),
+);
+
+//reviews rout
+app.post(
+  '/listings/:id/reviews',
+  validateReview,
+  wrapAysnc(async (req, res) => {
+    let listing = await Listing.findById(req.params.id);
+    let newReview = new Review(req.body.review); //creat new review
+
+    listing.reviews.push(newReview); //push this new review in listing-> review arr
+
+    await newReview.save();
+    await listing.save();
+
+    res.redirect(`/listings/${listing._id}`);
   }),
 );
 
