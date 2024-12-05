@@ -2,6 +2,8 @@
 
 const mongoose = new require('mongoose');
 const Schema = mongoose.Schema;
+// const Review = require('./review.js');
+// const { ref } = require('joi');
 
 const listingSchema = new Schema({
   title: {
@@ -12,10 +14,9 @@ const listingSchema = new Schema({
   image: {
     url: {
       type: String,
-      default: 'F:\\Project\\BlissfulWander\\No-Image-Placeholder.svg.png', // Default placeholder image
+      default: 'F:\\Project\\BlissfulWander\\No-Image-Placeholder.svg.png',
       set: function (v) {
-        // If the user provides an empty string, use the default placeholder image
-        return v === ''
+        return !v
           ? 'F:\\Project\\BlissfulWander\\No-Image-Placeholder.svg.png'
           : v;
       },
@@ -24,7 +25,7 @@ const listingSchema = new Schema({
   price: Number,
   location: String,
   country: String,
-  reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
+  // reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
 });
 
 module.exports = mongoose.model('Listing', listingSchema);

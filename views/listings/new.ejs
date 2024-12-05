@@ -1,11 +1,11 @@
-<% layout('layouts/boilerplate') %>
+<% layout('/layouts/boilerplate') %>
 
 <div class="row mt-3">
   <div class="col-8 offset-2">
     <br /><br />
     <h3>Create new listing</h3>
     <br />
-    <form method="POST" action="/listings" class="needs-validation" novalidate>
+    <form method="POST" action="/listings" novalidate class="needs-validation">
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input
@@ -16,7 +16,7 @@
           class="form-control"
           required
         />
-        <div class="invalid-feedback">Please provide a title.</div>
+        <div class="valid-feedback">Title looks good!</div>
       </div>
 
       <div class="mb-3">
@@ -27,6 +27,7 @@
           class="form-control"
           required
         ></textarea>
+        <div class="invalid-feedback">Description should be Invalid</div>
       </div>
 
       <div class="mb-3">
@@ -37,7 +38,6 @@
           name="listing[image][url]"
           class="form-control"
           placeholder="URL"
-          required
         />
       </div>
 
@@ -45,7 +45,6 @@
         <div class="mb-3 col-md-4">
           <label for="price" class="form-label">Price</label>
           <input
-            type="number"
             id="price"
             name="listing[price]"
             class="form-control"
@@ -82,7 +81,6 @@
         <div class="invalid-feedback">location should be Invalid</div>
       </div>
       <br />
-
       <button type="submit" class="btn btn-dark add-btn mb-2">Add</button>
       <br />
     </form>
