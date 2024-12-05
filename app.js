@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const Listing = require('./model/listing.js');
+const Review = require('./model/review.js');
 const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
@@ -29,18 +30,15 @@ app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate); //ejs mate
 app.use(express.static(path.join(__dirname, 'public')));
 
-// const Review = require('./model/review.js');
-
 app.get('/', (req, res) => {
   res.send('hii I am root');
 });
 
 const validateListing = (req, res, next) => {
   let { error } = listingSchema.validate(req.body); // Validate schema
-  console.log(error);
   if (error) {
     let errorMessage = error.details.map((d) => d.message).join(','); // Combine error messages
-    return next(new ExpressError(400, errorMessage)); // Pass error to next middleware
+    throw new ExpressError(400, errorMessage); // Pass error to next middleware
   } else {
     next();
   }
@@ -50,7 +48,7 @@ const validateReview = (req, res, next) => {
   const { error } = reviewSchema.validate(req.body); // Validate schema
   if (error) {
     let errorMessage = error.details.map((d) => d.message).join(','); // Combine error messages
-    return next(new ExpressError(400, errorMessage)); // Pass error to next middleware
+    throw new ExpressError(400, errorMessage);
   } else {
     next();
   }
@@ -85,8 +83,7 @@ app.get(
 app.post(
   '/listings',
   validateListing,
-  wrapAsync(async (req, res) => {
-    console.log(req.body);
+  wrapAsync(async (req, res, next) => {
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect('/listings');
@@ -105,7 +102,7 @@ app.get(
 
 app.put(
   '/listings/:id',
-  valideteListing,
+  validateListing,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
