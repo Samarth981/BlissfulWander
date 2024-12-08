@@ -5,7 +5,7 @@
     <h3><%= listing.title %></h3>
   </div>
 
-  <div class="card col-6 offset-3 show-card">
+  <div class="card col-6 offset-3 show-card listing-card">
     <img
       src="<%= listing.image.url %>"
       class="card-img-top show-image"
@@ -71,6 +71,28 @@
 
       <button class="btn btn-outline-secondary">Submit</button>
     </form>
+    <hr />
+
+    <p><b>All Reviews</b></p>
+
+    <div class="row">
+      <% for (const review of listing.reviews) { %>
+      <div class="card col-5 mb-3 ms-3">
+        <div class="card-body">
+          <h5 class="card-title">Samarth</h5>
+          <p class="card-text"><%= review.comment %></p>
+          <p class="card-text"><%= review.rating %> Stars</p>
+        </div>
+        <form
+          class="mb-3"
+          method="post"
+          action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
+        >
+          <button class="btn btn-dark btn-sm">Delete</button>
+        </form>
+      </div>
+      <% } %>
+    </div>
   </div>
 </div>
 

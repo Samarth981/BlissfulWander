@@ -2,7 +2,7 @@
 
 const mongoose = new require('mongoose');
 const Schema = mongoose.Schema;
-// const Review = require('./review.js');
+const Review = require('./review.js');
 // const { ref } = require('joi');
 
 const listingSchema = new Schema({
@@ -14,11 +14,9 @@ const listingSchema = new Schema({
   image: {
     url: {
       type: String,
-      default: 'F:\\Project\\BlissfulWander\\No-Image-Placeholder.svg.png',
+      default: '/images/No-Image-Placeholder.svg.png',
       set: function (v) {
-        return !v
-          ? 'F:\\Project\\BlissfulWander\\No-Image-Placeholder.svg.png'
-          : v;
+        return v ? v : '/images/No-Image-Placeholder.svg.png';
       },
     },
   },
@@ -26,6 +24,13 @@ const listingSchema = new Schema({
   location: String,
   country: String,
   reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
+});
+
+//create meddlewere for delete then delete all review
+listingSchema.post('findOneAndDelete', async (listing) => {
+  if (listing) {
+    await Review.deleteMany({ _id: { $in: listing.reviews } });
+  }
 });
 
 module.exports = mongoose.model('Listing', listingSchema);
