@@ -5,11 +5,16 @@ const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError.js');
+
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./model/user.js');
 
-const listings = require('./routes/listing.js');
-const review = require('./routes/review.js');
+const listingRout = require('./routes/listing.js');
+const reviewRout = require('./routes/review.js');
+const userRout = require('./routes/user.js');
 
 main()
   .then(() => {
@@ -25,8 +30,8 @@ async function main() {
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate); //ejs mate
 app.use(express.static(path.join(__dirname, 'public')));
@@ -49,15 +54,27 @@ app.get('/', (req, res) => {
 app.use(session(sessionOption));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+//check npm -> passport-local-mongoose
+// use static authenticate method of model in LocalStrategy
+passport.use(new LocalStrategy(User.authenticate()));
+// use static serialize and deserialize of model for passport session support
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 //this is flash middelwere
 app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
+  res.locals.currUser = req.user;
   next();
 });
 
-app.use('/listings', listings); //use for routes-> listings.js
-app.use('/listings/:id/reviews', review); //use for routes-> listings.js
+app.use('/listings', listingRout); //use for routes-> listings.js
+app.use('/listings/:id/reviews', reviewRout); //use for routes-> listings.js
+app.use('/', userRout);
 
 app.all('*', (req, res, next) => {
   next(new ExpressError(404, 'Page not found!'));

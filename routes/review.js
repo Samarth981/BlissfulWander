@@ -5,22 +5,22 @@ const ExpressError = require('../utils/ExpressError.js');
 const { reviewSchema } = require('../schema.js');
 const Listing = require('../model/listing.js');
 const Review = require('../model/review.js');
-// const {
-//   isLoggedIn,
-//   isOwner,
-//   validateReview,
-//   isReviewAuthor,
-// } = require('../middleware/middleware');
+const {
+  isLoggedIn,
+  isOwner,
+  validateReview,
+  isReviewAuthor,
+} = require('../middleware/middleware');
 
-const validateReview = (req, res, next) => {
-  const { error } = reviewSchema.validate(req.body);
-  if (error) {
-    let errorMessage = error.details.map((d) => d.message).join(','); // Combine error messages
-    throw new ExpressError(400, errorMessage);
-  } else {
-    next();
-  }
-};
+// const validateReview = (req, res, next) => {
+//   const { error } = reviewSchema.validate(req.body);
+//   if (error) {
+//     let errorMessage = error.details.map((d) => d.message).join(','); // Combine error messages
+//     throw new ExpressError(400, errorMessage);
+//   } else {
+//     next();
+//   }
+// };
 
 //reviews rout
 router.post(
