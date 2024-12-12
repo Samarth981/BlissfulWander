@@ -12,7 +12,7 @@ module.exports.isLoggedIn = (req, res, next) => {
     req.flash('error', 'You must be logged in to create listing!');
     return res.redirect('/login');
   }
-  next(); //if user is Authenticated
+  next();
 };
 
 module.exports.saveRedirectUrl = (req, res, next) => {

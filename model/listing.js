@@ -1,6 +1,6 @@
 // const { model } = require('mongoose');
 
-const mongoose = new require('mongoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Review = require('./review.js');
 const User = require('./user.js');
@@ -15,9 +15,13 @@ const listingSchema = new Schema({
   image: {
     url: {
       type: String,
-      default: '/images/No-Image-Placeholder.svg.png',
+      default:
+        'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=',
       set: function (v) {
-        return v ? v : '/images/No-Image-Placeholder.svg.png';
+        // Set default only if 'v' is falsy (null, undefined, or empty string)
+        return v && v.trim() !== ''
+          ? v
+          : 'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=';
       },
     },
   },
