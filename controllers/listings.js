@@ -12,9 +12,14 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.CreateListing = async (req, res, next) => {
+  let url = req.file.path;
+  let filename = req.file.filename;
+
   const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id; //owner id save in db
+  newListing.image = { url, filename };
   await newListing.save();
+
   req.flash('success', 'new listing created!');
   res.redirect('/listings');
 };
@@ -46,19 +51,24 @@ module.exports.editListing = async (req, res) => {
     req.flash('error', 'Listing does not exist!');
     return res.redirect('/listings');
   }
-
+  let orignalImageUrl = listing.image.url;
+  orignalImageUrl = orignalImageUrl.replace('/upload', '/upload/h_250,w_300'); //size is change for image
   req.flash('success', 'Listing updated!');
-  res.render('listings/edit.ejs', { listing });
+  res.render('listings/edit.ejs', { listing, orignalImageUrl });
 };
 
 //update
 module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
-  // Check if the image.url is empty and replace it with the default value
-  //   if (!req.body.listing.image || !req.body.listing.image.url.trim()) {
-  //     req.body.listing.image = { url: 'F:\Project\BlissfulWander-\public\images\No-Image-Placeholder.svg.png' };
-  //   }
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  let listing = await Listing.findByIdAndUpdate(id, {
+    ...req.body.listing, //all are update with body
+  });
+  if (typeof req.file !== 'undefined') {
+    let url = req.file.path;
+    let filename = req.file.filename;
+    listing.image = { url, filename };
+    await listing.save(); //agine update if image is update
+  }
   req.flash('success', 'listing updated!');
   res.redirect(`/listings/${id}`);
 };

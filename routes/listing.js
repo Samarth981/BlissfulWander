@@ -16,9 +16,12 @@ const upload = multer({ storage });
 router
   .route('/')
   .get(wrapAsync(listingControllre.index)) //index
-  .post(upload.single('listing[image][url]'), (req, res) => {
-    res.send(req.file);
-  });
+  .post(
+    isLoggedIn,
+    upload.single('listing[image]'),
+    validateListing,
+    wrapAsync(listingControllre.CreateListing),
+  );
 
 //new routs
 router.get('/new', isLoggedIn, listingControllre.renderNewForm);
@@ -30,6 +33,7 @@ router
   .put(
     isLoggedIn,
     isOwner,
+    upload.single('listing[image]'),
     validateListing,
     wrapAsync(listingControllre.updateListing),
   )
