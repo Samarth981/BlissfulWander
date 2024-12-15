@@ -1,10 +1,81 @@
 <% layout("/layouts/boilerplate") %>
 
-<h3>All listing</h3>
 <!-- <form method="GET" action="/listings/new">
     <button>Create New Listing</button>
 </form> -->
-<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .filter {
+    text-align: center;
+    margin-right: 2rem;
+    margin-top: 1rem;
+    opacity: 0.7;
+  }
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+  .filter p {
+    font-size: 0.8rem;
+  }
+</style>
+
+<div class="filters">
+  <div class="filter">
+    <div><i class="fa-solid fa-fire"></i></div>
+    <p>Tranding</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-bed"></i></div>
+    <p>Rooms</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-city"></i></div>
+    <p>Iconic cities</p>
+  </div>
+  <div class="filter">
+    <div><i class="fas fa-chess-rook"></i></div>
+    <p>Castle</p>
+  </div>
+  <div class="filter">
+    <div>
+      <i class="fa-solid fa-house"></i>
+    </div>
+    <p>Village</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-person-hiking"></i></div>
+    <p>Mountrest</p>
+  </div>
+  <div class="filter">
+    <div><i class="fas fa-tree"></i></div>
+    <p>Junglehut</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-cow"></i></div>
+    <p>Farms</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-umbrella-beach"></i></div>
+    <p>Beach</p>
+  </div>
+  <div class="filter">
+    <div><i class="fas fa-snowflake"></i></div>
+    <p>ski-in/out</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-water-ladder"></i></div>
+    <p>Amazing pools</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-person-swimming"></i></div>
+    <p>Arctic</p>
+  </div>
+</div>
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
   <% for(let listing of listingAll){ %>
 
   <a href="/listings/<%= listing._id %>" class="listing-link">

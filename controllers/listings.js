@@ -1,4 +1,7 @@
 const Listing = require('../model/listing.js');
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapToken = process.env.MAP_TOKEN;
+const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 //index
 module.exports.index = async (req, res) => {
@@ -12,14 +15,24 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.CreateListing = async (req, res, next) => {
+  //Geocoding
+  let response = await geocodingClient
+    .forwardGeocode({
+      query: req.body.listing.location,
+      limit: 1,
+    })
+    .send();
+  // console.log(response.body.features[0].geometry);
   let url = req.file.path;
   let filename = req.file.filename;
-
   const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id; //owner id save in db
   newListing.image = { url, filename };
-  await newListing.save();
 
+  newListing.geometry = response.body.features[0].geometry; //this is come through mapbox
+
+  let saveListing = await newListing.save();
+  console.log(saveListing);
   req.flash('success', 'new listing created!');
   res.redirect('/listings');
 };
@@ -63,12 +76,29 @@ module.exports.updateListing = async (req, res) => {
   let listing = await Listing.findByIdAndUpdate(id, {
     ...req.body.listing, //all are update with body
   });
+
+  // Check if the location is updated, fetch new coordinates
+  if (req.body.listing.location) {
+    const response = await geocodingClient
+      .forwardGeocode({
+        query: req.body.listing.location,
+        limit: 1,
+      })
+      .send();
+    listing.geometry = response.body.features[0].geometry; // Update geometry
+  }
+
+  // If a new image is uploaded, update the image
   if (typeof req.file !== 'undefined') {
     let url = req.file.path;
     let filename = req.file.filename;
     listing.image = { url, filename };
     await listing.save(); //agine update if image is update
   }
+
+  // Save the updated listing
+  await listing.save();
+
   req.flash('success', 'listing updated!');
   res.redirect(`/listings/${id}`);
 };
