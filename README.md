@@ -1,2 +1,5 @@
-# BlissfulWander-
-This is my first complete project, aptly named to embody a joyful exploration filled with happiness.
+<<<<<<< HEAD
+Your local changes
+=======
+Changes from the remote repository
+>>>>>>> origin/main
