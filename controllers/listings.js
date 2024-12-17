@@ -4,9 +4,19 @@ const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 //index
-module.exports.index = async (req, res) => {
-  const listingAll = await Listing.find({});
-  res.render('listings/index.ejs', { listingAll });
+module.exports.index = async (req, res, next) => {
+  const { category } = req.query; // Get the category from the query params
+
+  let listingAll;
+
+  if (category) {
+    listingAll = await Listing.find({ category: category });
+  } else {
+    listingAll = await Listing.find({});
+  }
+
+  // Render the listings page with filtered listings and category info
+  res.render('listings/index.ejs', { listingAll, category });
 };
 
 //new
@@ -25,14 +35,15 @@ module.exports.CreateListing = async (req, res, next) => {
   // console.log(response.body.features[0].geometry);
   let url = req.file.path;
   let filename = req.file.filename;
+
   const newListing = new Listing(req.body.listing);
+
   newListing.owner = req.user._id; //owner id save in db
   newListing.image = { url, filename };
 
   newListing.geometry = response.body.features[0].geometry; //this is come through mapbox
-
   let saveListing = await newListing.save();
-  console.log(saveListing);
+  // console.log(saveListing);
   req.flash('success', 'new listing created!');
   res.redirect('/listings');
 };
@@ -97,7 +108,7 @@ module.exports.updateListing = async (req, res) => {
   }
 
   // Save the updated listing
-  await listing.save();
+  let savelisting = await listing.save();
 
   req.flash('success', 'listing updated!');
   res.redirect(`/listings/${id}`);

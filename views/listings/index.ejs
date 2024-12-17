@@ -3,94 +3,100 @@
 <!-- <form method="GET" action="/listings/new">
     <button>Create New Listing</button>
 </form> -->
-<style>
-  .filters {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .filter {
-    text-align: center;
-    margin-right: 2rem;
-    margin-top: 1rem;
-    opacity: 0.7;
-  }
-  .filter:hover {
-    opacity: 1;
-    cursor: pointer;
-  }
-  .filter p {
-    font-size: 0.8rem;
-  }
-</style>
 
 <div class="filters">
-  <div class="filter">
+  <div class="filter" onclick="location.href='/listings?category=Tranding'">
     <div><i class="fa-solid fa-fire"></i></div>
     <p>Tranding</p>
   </div>
-  <div class="filter">
+  <div class="filter" onclick="location.href='/listings?category=Rooms'">
     <div><i class="fa-solid fa-bed"></i></div>
     <p>Rooms</p>
   </div>
-  <div class="filter">
+  <div
+    class="filter"
+    onclick="location.href='/listings?category=Iconic cities'"
+  >
     <div><i class="fa-solid fa-city"></i></div>
     <p>Iconic cities</p>
   </div>
-  <div class="filter">
+  <div class="filter" onclick="location.href='/listings?category=Castle'">
     <div><i class="fas fa-chess-rook"></i></div>
     <p>Castle</p>
   </div>
-  <div class="filter">
-    <div>
-      <i class="fa-solid fa-house"></i>
-    </div>
+  <div class="filter" onclick="location.href='/listings?category=Village'">
+    <div><i class="fa-solid fa-house"></i></div>
     <p>Village</p>
   </div>
-  <div class="filter">
+  <div class="filter" onclick="location.href='/listings?category=Mountrest'">
     <div><i class="fa-solid fa-person-hiking"></i></div>
     <p>Mountrest</p>
   </div>
-  <div class="filter">
+  <div class="filter" onclick="location.href='/listings?category=Junglehut'">
     <div><i class="fas fa-tree"></i></div>
     <p>Junglehut</p>
   </div>
-  <div class="filter">
+  <div class="filter" onclick="location.href='/listings?category=Farms'">
     <div><i class="fa-solid fa-cow"></i></div>
     <p>Farms</p>
   </div>
-  <div class="filter">
+  <div class="filter" onclick="location.href='/listings?category=Beach'">
     <div><i class="fa-solid fa-umbrella-beach"></i></div>
     <p>Beach</p>
   </div>
-  <div class="filter">
+  <div class="filter" onclick="location.href='/listings?category=ski-in/out'">
     <div><i class="fas fa-snowflake"></i></div>
     <p>ski-in/out</p>
   </div>
-  <div class="filter">
+  <div
+    class="filter"
+    onclick="location.href='/listings?category=Amazing pools'"
+  >
     <div><i class="fa-solid fa-water-ladder"></i></div>
     <p>Amazing pools</p>
   </div>
-  <div class="filter">
+  <div class="filter" onclick="location.href='/listings?category=Arctic'">
     <div><i class="fa-solid fa-person-swimming"></i></div>
     <p>Arctic</p>
   </div>
+  <div class="tax-toggel">
+    <div class="form-check-reverse form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        role="switch"
+        id="flexSwitchCheckDefault"
+      />
+      <label class="form-check-label" for="flexSwitchCheckDefault"
+        >Display texes</label
+      >
+    </div>
+  </div>
 </div>
+
 <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
-  <% for(let listing of listingAll){ %>
+  <% for (let listing of listingAll) { %>
 
   <a href="/listings/<%= listing._id %>" class="listing-link">
-    <div class="card col listing-card">
+    <div class="card col listing-card" style="cursor: pointer">
       <img
         src="<%= listing.image.url %>"
         class="card-img-top"
         alt="Listing Image"
-        style="height: 20rem"
+        style="height: 20rem; object-fit: cover"
       />
-      <div class="card-img-overlay"></div>
       <div class="card-body">
         <p class="card-text">
-          <b> <%= listing.title%> </b> <br />
-          &#8377; <%= listing.price %> /night
+          <b><%= listing.title %></b><br />
+          &#8377;
+          <span
+            class="price-info"
+            data-original="<%= listing.price %>"
+            data-with-gst="<%= (listing.price * 1.18).toFixed(2) %>"
+          >
+            <%= listing.price.toLocaleString("en-IN") %>
+          </span>
+          /night
         </p>
       </div>
     </div>
@@ -99,6 +105,7 @@
   <% } %>
 </div>
 
+<script src="/js/TaxShow.js"></script>
 <!--       
 <ul>
     <% for(let listing of listingAll){ %>

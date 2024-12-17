@@ -35,6 +35,7 @@
         <div class="invalid-feedback">Description should be Invalid</div>
       </div>
       <br />
+
       <div class="mb-3">
         Orignal Listing Image <br />
         <img src="<%= orignalImageUrl %>" />
@@ -88,6 +89,29 @@
         />
         <div class="invalid-feedback">location should be Invalid</div>
       </div>
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select
+          id="category"
+          name="listing[category]"
+          class="form-select"
+          required
+        >
+          <option value="" disabled>Select a Category</option>
+          <option value="Rooms" <%= listing.category === 'Rooms' ? 'selected' : '' %>>Rooms</option>
+          <option value="Iconic cities" <%= listing.category === 'Iconic cities' ? 'selected' : '' %>>Iconic cities</option>
+          <option value="Castle" <%= listing.category === 'Castle' ? 'selected' : '' %>>Castle</option>
+          <option value="Village" <%= listing.category === 'Village' ? 'selected' : '' %>>Village</option>
+          <option value="Mountrest" <%= listing.category === 'Mountrest' ? 'selected' : '' %>>Mountrest</option>
+          <option value="Junglehut" <%= listing.category === 'Junglehut' ? 'selected' : '' %>>Junglehut</option>
+          <option value="Farms" <%= listing.category === 'Farms' ? 'selected' : '' %>>Farms</option>
+          <option value="Beach" <%= listing.category === 'Beach' ? 'selected' : '' %>>Beach</option>
+          <option value="ski-in/out" <%= listing.category === 'ski-in/out' ? 'selected' : '' %>>ski-in/out</option>
+          <option value="Amazing pools" <%= listing.category === 'Amazing pools' ? 'selected' : '' %>>Amazing pools</option>
+          <option value="Arctic" <%= listing.category === 'Arctic' ? 'selected' : '' %>>Arctic</option>
+        </select>
+      </div>
+      
       <br />
       <button type="submit" class="btn btn-dark add-btn mt-1 mb-2">Add</button>
     </form>

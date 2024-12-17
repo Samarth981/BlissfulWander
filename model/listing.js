@@ -35,6 +35,23 @@ const listingSchema = new Schema({
       required: true,
     },
   },
+  category: {
+    type: String,
+    enum: [
+      'Rooms',
+      'Iconic cities',
+      'Castle',
+      'Village',
+      'Mountrest',
+      'Junglehut',
+      'Farms',
+      'Beach',
+      'ski-in/out',
+      'Amazing pools',
+      'Arctic',
+    ],
+    required: true,
+  },
 });
 
 //create meddlewere for delete then delete all review

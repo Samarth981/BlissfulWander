@@ -11,6 +11,7 @@ const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError.js');
 
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
@@ -19,6 +20,9 @@ const User = require('./model/user.js');
 const listingRout = require('./routes/listing.js');
 const reviewRout = require('./routes/review.js');
 const userRout = require('./routes/user.js');
+
+// const Mongo_url = 'mongodb://127.0.0.1:27017/blissfulWander';
+const dbUrl = process.env.ATLASDB_URL; //this is atlas db
 
 main()
   .then(() => {
@@ -29,7 +33,7 @@ main()
   });
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/blissfulWander');
+  await mongoose.connect(dbUrl);
 }
 
 app.set('view engine', 'ejs');
@@ -40,8 +44,24 @@ app.use(methodOverride('_method'));
 app.engine('ejs', ejsMate); //ejs mate
 app.use(express.static(path.join(__dirname, 'public')));
 
+//this is mongo-session
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  //options
+  crypto: {
+    secret: process.env.SESSION_SECRET,
+  },
+  touchAfter: 24 * 3600, //24 hour after session update
+});
+
+//if come error
+store.on('error', () => {
+  console.log('ERROR IN MONGO-SESSION STORE', err);
+});
+//this is express-session options
 const sessionOption = {
-  secret: 'SuperSecretCode',
+  store: store, //pass this mongo-session store information
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {

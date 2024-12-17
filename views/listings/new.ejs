@@ -87,6 +87,31 @@
         />
         <div class="invalid-feedback">location should be Invalid</div>
       </div>
+
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select
+          id="category"
+          name="listing[category]"
+          class="form-select"
+          required
+        >
+          <option value="">Select a Category</option>
+          <option value="Rooms">Rooms</option>
+          <option value="Iconic cities">Iconic cities</option>
+          <option value="Castle">Castle</option>
+          <option value="Village">Village</option>
+          <option value="Mountrest">Mountrest</option>
+          <option value="Junglehut">Junglehut</option>
+          <option value="Farms">Farms</option>
+          <option value="Beach">Beach</option>
+          <option value="ski-in/out">ski-in/out</option>
+          <option value="Amazing pools">Amazing pools</option>
+          <option value="Arctic">Arctic</option>
+        </select>
+        <div class="invalid-feedback">Please select a valid category.</div>
+      </div>
+
       <br />
       <button type="submit" class="btn btn-dark add-btn mb-2">Add</button>
       <br />
