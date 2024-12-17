@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-Your local changes
-=======
-Changes from the remote repository
->>>>>>> origin/main
+This is my first full stack project
