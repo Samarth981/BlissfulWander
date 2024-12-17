@@ -23,6 +23,12 @@ router
     wrapAsync(listingControllre.CreateListing),
   );
 
+app.get('/', (req, res) => {
+  res.redirect('/listings');
+});
+
+app.use('/listings', listingRout); // Ensure this is correct
+
 //new routs
 router.get('/new', isLoggedIn, listingControllre.renderNewForm);
 
