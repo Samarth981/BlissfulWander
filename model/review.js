@@ -1,7 +1,7 @@
-const mongoose = new require('mongoose');
+const mongoose = new require("mongoose");
 const Schema = mongoose.Schema;
-// const Review = require('./review.js');
-// const { ref } = require('joi');
+const User = require("./user.js");
+const { ref } = require("joi");
 
 const reviewSchema = new Schema({
   comment: String,
@@ -16,8 +16,8 @@ const reviewSchema = new Schema({
   },
   author: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
   },
 });
 
-module.exports = mongoose.model('Review', reviewSchema);
+module.exports = mongoose.model("Review", reviewSchema);

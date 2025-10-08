@@ -1,13 +1,8 @@
 <% layout("/layouts/boilerplate") %>
-
-<!-- <form method="GET" action="/listings/new">
-    <button>Create New Listing</button>
-</form> -->
-
 <div class="filters">
-  <div class="filter" onclick="location.href='/listings?category=Tranding'">
+  <div class="filter" onclick="location.href='/listings?category=trading'">
     <div><i class="fa-solid fa-fire"></i></div>
-    <p>Tranding</p>
+    <p>Trending</p>
   </div>
   <div class="filter" onclick="location.href='/listings?category=Rooms'">
     <div><i class="fa-solid fa-bed"></i></div>
@@ -28,13 +23,13 @@
     <div><i class="fa-solid fa-house"></i></div>
     <p>Village</p>
   </div>
-  <div class="filter" onclick="location.href='/listings?category=Mountrest'">
+  <div class="filter" onclick="location.href='/listings?category=moulters'">
     <div><i class="fa-solid fa-person-hiking"></i></div>
-    <p>Mountrest</p>
+    <p>Mountains</p>
   </div>
-  <div class="filter" onclick="location.href='/listings?category=Junglehut'">
+  <div class="filter" onclick="location.href='/listings?category=jungle'">
     <div><i class="fas fa-tree"></i></div>
-    <p>Junglehut</p>
+    <p>jungle</p>
   </div>
   <div class="filter" onclick="location.href='/listings?category=Farms'">
     <div><i class="fa-solid fa-cow"></i></div>
@@ -59,7 +54,7 @@
     <div><i class="fa-solid fa-person-swimming"></i></div>
     <p>Arctic</p>
   </div>
-  <div class="tax-toggel">
+  <div class="tax-toggle">
     <div class="form-check-reverse form-switch">
       <input
         class="form-check-input"
@@ -106,9 +101,3 @@
 </div>
 
 <script src="/js/TaxShow.js"></script>
-<!--       
-<ul>
-    <% for(let listing of listingAll){ %>
-        <li><a href="/listings/<%= listing._id %>"> <%= listing.title %> </a></li>
-    <% } %>
-</ul>  -->

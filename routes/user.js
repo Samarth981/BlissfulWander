@@ -1,32 +1,32 @@
-const express = require('express');
-const router = express.Router({ mergeParams: true });
-const User = require('../model/user.js');
-const wrapAsync = require('../utils/WrapAsync.js');
-const passport = require('passport');
-const { saveRedirectUrl } = require('../middleware/middleware');
+const express = require("express");
+const router = express.Router();
+const User = require("../model/user.js");
+const wrapAsync = require("../utils/WrapAsync.js");
+const passport = require("passport");
+const { saveRedirectUrl } = require("../middleware/middleware");
 
-const userControllre = require('../controllers/user.js');
+const userController = require("../controllers/user.js");
 
-//singup
+//signup
 router
-  .route('/singUp')
-  .get(userControllre.renderSingUp)
-  .post(wrapAsync(userControllre.singUpUser));
+  .route("/signup")
+  .get(userController.rendersignup)
+  .post(wrapAsync(userController.signupUser));
 
-//loging
+//logging
 router
-  .route('/login')
-  .get(userControllre.renderlogin)
+  .route("/login")
+  .get(userController.renderlogin)
   .post(
-    saveRedirectUrl, //after login redirect access path
-    passport.authenticate('local', {
-      failureRedirect: '/login',
+    saveRedirectUrl, //when login first save current api-path
+    passport.authenticate("local", {
+      failureRedirect: "/login",
       failureFlash: true,
     }),
-    userControllre.loginUser,
+    userController.loginUser //call back
   );
 
 //logout
-router.get('/logout', userControllre.logoutUser);
+router.get("/logout", userController.logoutUser);
 
 module.exports = router;

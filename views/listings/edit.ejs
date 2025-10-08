@@ -23,7 +23,7 @@
       </div>
 
       <div class="mb-3">
-        <label for="description" class="form-label">Descriptio</label>
+        <label for="description" class="form-label">Description</label>
         <textarea
           name="listing[description]"
           class="form-control"
@@ -37,11 +37,11 @@
       <br />
 
       <div class="mb-3">
-        Orignal Listing Image <br />
-        <img src="<%= orignalImageUrl %>" />
+        Original Listing Image <br />
+        <img src="<%= originalImageUrl %>" />
       </div>
       <div class="mb-3">
-        <label for="image" class="form-label">Update Image</label>
+        <label for="image" class="form-label">Upload new Image</label>
         <input type="file" name="listing[image]" class="form-control" />
       </div>
       <br />
@@ -89,7 +89,7 @@
         />
         <div class="invalid-feedback">location should be Invalid</div>
       </div>
-      <div class="mb-3">
+      <!-- <div class="mb-3">
         <label for="category" class="form-label">Category</label>
         <select
           id="category"
@@ -110,11 +110,10 @@
           <option value="Amazing pools" <%= listing.category === 'Amazing pools' ? 'selected' : '' %>>Amazing pools</option>
           <option value="Arctic" <%= listing.category === 'Arctic' ? 'selected' : '' %>>Arctic</option>
         </select>
-      </div>
-      
+      </div> -->
+
       <br />
       <button type="submit" class="btn btn-dark add-btn mt-1 mb-2">Add</button>
     </form>
   </div>
 </div>
-<script src="/js/Script.js"></script>

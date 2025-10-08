@@ -1,5 +1,5 @@
-const cloudinary = require('cloudinary');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -7,13 +7,11 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
-// console.log(cloudinary.uploader);
-
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'BlissfulWandere-DEV',
-    allowedFormats: ['png', 'jpg', 'jpeg'],
+    folder: "BlissfulWandere-DEV",
+    allowedFormats: ["png", "jpg", "jpeg"],
   },
 });
 
